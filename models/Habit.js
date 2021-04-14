@@ -9,7 +9,14 @@ const HabitSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
+  consistant: {
+    type: Number,
+  },
+  daysCompleted: {
+    type: Map,
+    of: Date,
+  },
+  startDate: {
     type: Date,
     default: Date.now,
   },
