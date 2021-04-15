@@ -1,33 +1,45 @@
 const express = require("express");
 const router = express.Router();
+const Habit = require("../models/Habit");
 
 router.post("/", async (req, res) => {
-  const { userId, widgetId, habit, consistant, daysCompleted, date } = req.body;
+  const {
+    userId,
+    widgetId,
+    name,
+    consistancy,
+    consistantNum,
+    daysCompleted,
+    date,
+  } = req.body;
+
   try {
     habit = new Habit({
       userId,
       widgetId,
-      habit,
-      consistant,
+      name,
+      consistancy,
+      consistantNum,
       daysCompleted,
       date,
     });
 
     await habit.save();
+    res.send(habit);
   } catch (e) {
     console.error(e.message);
     res.status(500).send("Server Error");
   }
 });
 
-// router.get("/", (req, res) => {
-//   const { _id } = req.body;
-//   try {
-//     const get;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// });
+router.get("/currentHabits/:id", async (req, res) => {
+  try {
+    const habit = await Habit.find({ userId: req.params.id });
+    res.send(habit);
+  } catch (e) {
+    console.error(e);
+  }
+});
 
 router.put("/:id", (req, res) => {
   res.send("make habit");
