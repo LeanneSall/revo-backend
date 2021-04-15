@@ -9,12 +9,17 @@ const HabitSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  habit: {
+  name: {
     type: String,
     required: true,
   },
-  consistant: {
+  consistancy: {
+    type: String,
+    required: true,
+  },
+  consistantNum: {
     type: Number,
+    default: 0,
   },
   daysCompleted: {
     type: Map,
