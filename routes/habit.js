@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { userId, habit, consistant, daysCompleted, date } = req.body;
+  const { userId, widgetId, habit, consistant, daysCompleted, date } = req.body;
   try {
     habit = new Habit({
       userId,
+      widgetId,
       habit,
       consistant,
       daysCompleted,

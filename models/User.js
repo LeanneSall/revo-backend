@@ -13,6 +13,11 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  widgetIds: {
+    type: Array,
+    of: Number,
+    default: [],
+  },
   date: {
     type: Date,
     default: Date.now,

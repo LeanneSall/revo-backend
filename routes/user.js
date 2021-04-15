@@ -5,7 +5,7 @@ const User = require("../models/User");
 const objectId = require("mongoose").Types.ObjectId;
 
 router.post("/register", async (req, res) => {
-  const { _id, firstName, lastName, date } = req.body;
+  const { _id, firstName, lastName, widgetId, date } = req.body;
 
   try {
     //  let user = await User.findOne({ email });
@@ -19,6 +19,7 @@ router.post("/register", async (req, res) => {
       _id,
       firstName,
       lastName,
+      widgetId,
       date,
     });
 
@@ -30,18 +31,20 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+
 router.post("/", (req, res) => {
   const { _id } = req.body;
 
   try {
-    //See if user exists
-    // let user = await User.findOne({ email })
-    //if user exists send back an error
-    // if (!user) {
-    //   return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
-    // }
-    //Anything that returns a promise should be async
-    //make sure password matches
     res.send(user);
   } catch (err) {
     console.error(err.message);
@@ -49,8 +52,33 @@ router.post("/", (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  res.send("make habit");
+//add a widget to your dashboard
+router.post("/:id/dashboard/:widget_id", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const widgets = user.widgetIds;
+    let isDup = false;
+
+    const duplicateExists = (widgets) => {
+      widgets.forEach((item) => {
+        if (item == req.params.widget_id) {
+          isDup = true;
+          return isDup;
+        }
+      });
+    };
+    duplicateExists(widgets);
+    if (isDup) {
+      res.status(200).send("This widget already exists");
+      return;
+    } else {
+      widgets.push(req.params.widget_id);
+      await user.save();
+      res.send("widgets added");
+    }
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 router.delete("/:id", (req, res) => {

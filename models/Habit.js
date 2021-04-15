@@ -5,6 +5,10 @@ const HabitSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  widgetId: {
+    type: Number,
+    required: true,
+  },
   habit: {
     type: String,
     required: true,
