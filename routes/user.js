@@ -81,8 +81,8 @@ router.post("/:id/dashboard/:widget_id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
-  res.send("make habit");
+router.put("del/:userid/", async (req, res) => {
+  res.send("big oof");
 });
 
 module.exports = router;

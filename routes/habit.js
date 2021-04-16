@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Habit = require("../models/Habit");
+require("mongoose").set("useFindAndModify", false);
 
 router.post("/", async (req, res) => {
   const {
@@ -41,12 +42,21 @@ router.get("/currentHabits/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  res.send("make habit");
+router.put("/:id", async (req, res) => {
+  const habit = await Habit.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: { consistantNum: req.body.consistantNum },
+    },
+    { upsert: true }
+  );
+
+  res.send(habit);
 });
 
-router.delete("/:id", (req, res) => {
-  res.send("make habit");
+router.delete("/:id", async (req, res) => {
+  const del = await Habit.findByIdAndDelete(req.params.id);
+  res.json(del);
 });
 
 module.exports = router;
