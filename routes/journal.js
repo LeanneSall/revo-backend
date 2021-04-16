@@ -31,12 +31,21 @@ router.get("/currentjournals/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  res.send("make habit");
+router.put("/:id", async (req, res) => {
+  const journal = await Journal.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: { entry: req.body.entry, title: req.body.title },
+    },
+    { upsert: true }
+  );
+
+  res.send(journal);
 });
 
-router.delete("/:id", (req, res) => {
-  res.send("make habit");
+router.delete("/:id", async (req, res) => {
+  const del = await Journal.findByIdAndDelete(req.params.id);
+  res.json(del);
 });
 
 module.exports = router;
