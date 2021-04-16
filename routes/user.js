@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const User = require("../models/User");
-const objectId = require("mongoose").Types.ObjectId;
 
 router.post("/register", async (req, res) => {
   const { _id, firstName, lastName, widgetId, date } = req.body;
@@ -42,14 +40,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { _id } = req.body;
-
-  try {
-    res.send(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("server error");
-  }
+  res.send("hi");
 });
 
 //add a widget to your dashboard
